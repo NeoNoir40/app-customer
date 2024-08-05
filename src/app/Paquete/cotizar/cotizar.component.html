@@ -1,0 +1,20 @@
+<div class="container">
+    <h1>Cotizar paquete</h1>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="origenPostal">Código postal Origen</label>
+        <input type="text" id="origenPostal" name="origenPostal" [(ngModel)]="origenPostal">
+      </div>
+      <div class="form-group">
+        <label for="destinoPostal">Código postal Destino</label>
+        <input type="text" id="destinoPostal" name="destinoPostal" [(ngModel)]="destinoPostal">
+      </div>
+      <div class="form-group">
+        <label>Medidas</label>
+        <input type="number" placeholder="Altura" [(ngModel)]="altura" name="altura">
+        <input type="number" placeholder="Ancho" [(ngModel)]="ancho" name="ancho">
+        <input type="number" placeholder="Largo" [(ngModel)]="largo" name="largo">
+      </div>
+      <button type="submit">Cotizar</button>
+    </form>
+  </div>
