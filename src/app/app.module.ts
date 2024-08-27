@@ -15,6 +15,7 @@ import { DescripcionComponent } from './Paquete/descripcion/descripcion.componen
 import { CodigoComponent } from './Paquete/codigo/codigo.component';
 import { InstruccionesComponent } from './Paquete/instrucciones/instrucciones.component';
 import { HistorialComponent } from './Paquete/historial/historial.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 
@@ -46,6 +47,7 @@ export function playerFactory() {
     AppRoutingModule,
     FormsModule,
     HttpClientModule,    
+    QRCodeModule,
     LottieModule.forRoot({ player: playerFactory }),
   ],
   providers: [],

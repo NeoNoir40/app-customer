@@ -25,6 +25,7 @@ export class DescripcionComponent implements OnInit {
   shippingPrice: number = 0;
   shippingType: string = 'Express';
   estimatedDeliveryTime: string = '1-2 días hábiles';
+  qrCodeData: string = '';
 
   constructor(
     private router: Router, 
@@ -33,7 +34,7 @@ export class DescripcionComponent implements OnInit {
 
   ngOnInit() {
     const paqueteria = this.enviosDataService.getPaqueteriaSeleccionada();
-    console.log('Paquetería recuperada:', paqueteria); // Para depuración
+    console.log('Paquetería recuperada:', paqueteria);
     if (paqueteria) {
       this.paqueteria = paqueteria;
       this.shippingPrice = Number(paqueteria.precio) || 0;
@@ -71,8 +72,22 @@ export class DescripcionComponent implements OnInit {
   }
 
   confirmarPedido() {
-    this.enviosDataService.clearPaqueteriaSeleccionada();
+    this.generateQRCode();
     this.router.navigate(['/codigo']);
+  }
+
+  generateQRCode() {
+    const envioData = {
+      remitente: this.sender,
+      destinatario: this.recipient,
+      paqueteria: this.paqueteria,
+      precio: this.shippingPrice,
+      tipoEnvio: this.shippingType,
+      tiempoEstimado: this.estimatedDeliveryTime
+    };
+
+    this.qrCodeData = JSON.stringify(envioData);
+    this.enviosDataService.setQRCodeData(this.qrCodeData);
   }
 
   nextStep() {
@@ -110,10 +125,10 @@ export class DescripcionComponent implements OnInit {
     console.log('Paquetería en getPackageImage:', this.paqueteria);
     if (!this.paqueteria || !this.paqueteria.nombre) {
       console.log('Paquetería o nombre de paquetería no definido');
-      return 'assets/images/default_logo.png';
+      return 'assets/images/isotipo-dagpacket.png';
     }
   
-    const nombrePaqueteria = this.paqueteria.nombre.toLowerCase();
+    const nombrePaqueteria = this.paqueteria.nombre.toLowerCase().trim();
     console.log('Nombre de paquetería (lowercase):', nombrePaqueteria);
     switch (nombrePaqueteria) {
       case 'fedex':
@@ -124,13 +139,15 @@ export class DescripcionComponent implements OnInit {
         return 'assets/images/ups_logo.png';
       case 'estafeta':
         return 'assets/images/estafeta_logo.png';
+      case 'paquete express':
       case 'paqueteexpress':
         return 'assets/images/paquetexpress_logo.png';
+      case 'super envios':
       case 'superenvios':
         return 'assets/images/superenvios_logo.png';
-      // Agrega más casos según sea necesario
       default:
-        return 'assets/images/isotipo-dagpacket.png'; // imagen por defecto si no coincide ninguna
+        console.log('No se encontró imagen para:', nombrePaqueteria);
+        return 'assets/images/isotipo-dagpacket.png';
     }
   }
 }

@@ -4,8 +4,9 @@ import { EnviosDataService } from 'src/app/_services/envios/envios-data.service'
 
 interface Paqueteria {
   nombre: string;
-  imagen: string;
+  proveedor: string;
   tiempo_de_entrega: string;
+  nombre_servicio: string;
   precio: number;
 }
 
@@ -28,10 +29,9 @@ export class PaqueteriasComponent {
   }
 
   seleccionarPaqueteria(paqueteria: Paqueteria) {
-    console.log('Paquetería seleccionada:', paqueteria); // Para depuración
+    console.log('Paquetería seleccionada:', paqueteria); 
     this.paqueteriaSeleccionada = paqueteria;
     this.enviosDataService.setPaqueteriaSeleccionada(paqueteria);
-    this.router.navigate(['/descripcion']);
   }
 
   confirmarSeleccion() {
@@ -49,7 +49,9 @@ export class PaqueteriasComponent {
     this.isSidebarOpen = false;
   }
 
-  navigateToDescription(response: { superenvios: { paqueterias: any[] }, fedex: any[], paqueteexpress: any[] }) {
-    this.router.navigate(['/descripcion']);
+  getImage(proveedor: string): string {
+    // Asegúrate de que el nombre del proveedor esté en minúsculas y sin espacios
+    const proveedorNormalizado = proveedor.toLowerCase().replace(/\s+/g, '');
+    return `assets/images/${proveedorNormalizado}_logo.png`;
   }
 }

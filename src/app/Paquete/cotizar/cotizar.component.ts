@@ -38,6 +38,7 @@ interface QuoteRequest {
   peso: number;
   seguro: number;
   valor_declarado: number;
+  isLoading: false;
 }
 
 @Component({
@@ -74,11 +75,20 @@ export class CotizarComponent {
 
   seleccionarTipo(tipo: 'paquete' | 'sobre') {
     this.tipoSeleccionado = tipo;
-    this.altura = null;
-    this.ancho = null;
-    this.largo = null;
-    this.peso = null;
-    this.showSeguroSection = tipo === 'paquete';
+    
+    if (tipo === 'sobre') {
+      this.altura = 20;
+      this.ancho = 20;
+      this.largo = 20;
+      this.peso = 2;
+      this.showSeguroSection = false;
+    } else {
+      this.altura = null;
+      this.ancho = null;
+      this.largo = null;
+      this.peso = null;
+      this.showSeguroSection = true;
+    }
   }
 
   openSidebar() {
@@ -104,7 +114,8 @@ export class CotizarComponent {
       largo: this.largo || 0,
       peso: this.peso || 0,
       seguro: this.seguroSeleccionado === 'si' ? 1 : 0,
-      valor_declarado: this.seguroSeleccionado === 'si' ? this.valorDeclarado || 0 : 0
+      valor_declarado: this.seguroSeleccionado === 'si' ? this.valorDeclarado || 0 : 0,
+      isLoading: false
     };
 
     this.quotesService.getQuote(cotizacionRequest)
