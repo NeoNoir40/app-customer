@@ -1,0 +1,33 @@
+<div class="flex flex-col min-h-screen bg-gradient-to-b from-orange-400 to-orange-600 p-6 text-white">
+  <!-- Encabezado -->
+  <div class="w-full flex justify-between items-center mb-8">
+    <button class="text-3xl hover:text-orange-200 transition-colors">&times;</button>
+    <h1 class="text-xl font-bold">Código QR</h1>
+    <button class="text-2xl hover:text-orange-200 transition-colors"></button>
+  </div>
+
+  <!-- Logo 
+  <div class="flex ">
+    <img src="assets/images/Logo_completo.png" alt="DAGPacket Logo" class="w-64 h-auto mx-auto mb-8">
+  </div> -->
+
+  <!-- Contenedor del QR -->
+  <div class="flex-grow flex flex-col items-center justify-center w-full max-w-md mx-auto">
+    <div class="bg-white rounded-3xl p-6 shadow-lg mb-8">
+      <img src='assets/images/QR_Code.png' alt="Código QR" class="w-64 h-64 mx-auto">
+    </div>
+    
+    <p class="text-lg text-white text-center mb-8 font-medium">
+      Por favor escanea el código QR para acceder al Locker
+    </p>
+    
+    <button class="bg-orange-900 text-white py-4 px-8 rounded-full text-lg font-bold shadow-lg hover:bg-blue-700 transition-colors transform hover:scale-105 transition-transform"  (click)="confirmarQr()">
+      Listo
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <div class="mt-8 text-center text-sm text-orange-200">
+    © 2024 DAGPacket. Todos los derechos reservados.
+  </div>
+</div>

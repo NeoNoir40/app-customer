@@ -1,9 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["C:/Users/HP/Documents/Deepia/app-customer/src/app/app.component.html"],
+  content: [
+    "./src/**/*.{html,ts}",
+  ],
   theme: {
     extend: {},
   },
   plugins: [],
 }
-

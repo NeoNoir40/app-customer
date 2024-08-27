@@ -6,14 +6,9 @@ body {
     height: 100vh;
     display: flex;
     align-items: center;
+
 }
-.container {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-}
+
 .logo {
     text-align: center;
     margin-bottom: 30px;
@@ -21,6 +16,7 @@ body {
 .logo img {
     max-width: 80%;
     height: auto;
+    margin: 0 auto;
 }
 .logo p {
     color: #666;
@@ -44,6 +40,7 @@ input {
     border-radius: 8px;
     box-sizing: border-box;
     font-size: 16px;
+
 }
 .button {
     width: 100%;
@@ -77,6 +74,7 @@ hr {
 
 .password-container {
     position: relative;
+    width: 100%;
 }
 
 .toggle-password {

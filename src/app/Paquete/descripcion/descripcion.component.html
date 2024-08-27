@@ -1,0 +1,92 @@
+<div class=" flex flex-col min-h-screen bg-white p-8 ">
+  <div class="flex justify-center">
+    <img src="assets/images/isotipo-dagpacket.png" alt="LogoDagpacket" class="mb-9 w-40">
+  </div>
+  
+  <div class="flex justify-between mb-10 relative">
+    <div class="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 -z-10"></div>
+    <ng-container *ngFor="let step of [1, 2, 3]">
+      <div [ngClass]="{'bg-orange-500 text-white': step <= currentStep, 'bg-white text-gray-400 border-2 border-gray-200': step > currentStep}"
+           class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg z-10 transition-all duration-300">
+        {{ step }}
+      </div>
+    </ng-container>
+  </div>
+  
+  <h2 class="text-2xl font-semibold mb-6 text-gray-800">
+    {{ currentStep === 1 ? 'Datos del Remitente' : currentStep === 2 ? 'Datos del Destinatario' : 'Resumen Del Envio' }}
+  </h2>
+  
+  <form (ngSubmit)="nextStep()" class="space-y-6">
+    <div [ngSwitch]="currentStep" class="transition-all duration-300">
+      <div *ngSwitchCase="1" class="fade-in space-y-4">
+        <div *ngFor="let field of senderFields">
+          <label [for]="'sender_' + field.key" class="block text-sm font-medium text-gray-700 mb-1">{{ field.label }}:</label>
+          <input [type]="field.type" [id]="'sender_' + field.key" [name]="'sender_' + field.key" [(ngModel)]="sender[field.key]"
+                 class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
+        </div>
+      </div>
+      
+      <div *ngSwitchCase="2" class="fade-in space-y-4">
+        <div *ngFor="let field of recipientFields">
+          <label [for]="'recipient_' + field.key" class="block text-sm font-medium text-gray-700 mb-1">{{ field.label }}:</label>
+          <input [type]="field.type" [id]="'recipient_' + field.key" [name]="'recipient_' + field.key" [(ngModel)]="recipient[field.key]"
+                 class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
+        </div>
+      </div>
+      
+      <div *ngSwitchCase="3" class="fade-in">
+        <div class="bg-white p-6 rounded-lg shadow-lg space-y-6">
+          <div class="flex items-center justify-between mb-4">
+            <img [src]="getPackageImage()" [alt]="paqueteria?.nombre" class="h-12">
+            <div class="text-right">
+              <p class="text-sm text-gray-600">Precio del envío:</p>
+              <p class="text-2xl font-bold text-orange-600">${{ shippingPrice.toFixed(2) || '0.00' }}</p>
+            </div>
+          </div>
+          
+          <div class="bg-gray-100 p-4 rounded-lg">
+            <h4 class="font-bold mb-2">Detalles del Envío:</h4>
+            <p><span class="font-medium">Tipo de envío:</span> {{ shippingType }}</p>
+            <p><span class="font-medium">Tiempo estimado de entrega:</span> {{ estimatedDeliveryTime }}</p>
+          </div>
+      
+          <div>
+            <h4 class="font-bold mb-2">Remitente:</h4>
+            <div class="ml-4">
+              <p>{{ sender.fullName }}</p>
+              <p>{{ sender.email }}</p>
+              <p>{{ sender.phone }}</p>
+              <p *ngIf="adressRemitente()"><span class="font-medium">Dirección:</span> {{ adressRemitente() }}</p>
+            </div>
+          </div>
+      
+          <div>
+            <h4 class="font-bold mb-2">Destinatario:</h4>
+            <div class="ml-4">
+              <p>{{ recipient.fullName }}</p>
+              <p>{{ recipient.email }}</p>
+              <p>{{ recipient.phone }}</p>
+              <p *ngIf="adressDestinatario()"><span class="font-medium">Dirección:</span> {{ adressDestinatario() }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <div class="flex justify-between p-8">
+      <button type="button" (click)="previousStep()" *ngIf="currentStep > 1"
+              class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 transition">
+        Atrás
+      </button>
+      <button type="submit" *ngIf="currentStep < 3"
+              class="w-full px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 transition">
+        Siguiente
+      </button>
+      <button type="button" *ngIf="currentStep === 3" (click)="confirmarPedido()"
+              class="w-full px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 transition">
+        Confirmar Pedido
+      </button>
+    </div>
+  </div>
+
+  

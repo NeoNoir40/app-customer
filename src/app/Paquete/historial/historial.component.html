@@ -1,0 +1,99 @@
+<div class="min-h-screen bg-gray-100 flex relative overflow-hidden">
+  <!-- Sidebar -->
+  <app-app-sidebar [isSidebarOpen]="isSidebarOpen"></app-app-sidebar>
+
+  <!-- Main content -->
+  <div class="flex-1 flex flex-col p-4">
+    <div class="w-full max-w-4xl mx-auto px-8 py-10 bg-white rounded-2xl shadow-lg relative">
+      
+      <!-- Ícono de menú hamburguesa para abrir el sidebar -->
+      <div class="absolute top-4 right-4">
+        <button (click)="openSidebar()" class="text-orange-600 focus:outline-none hover:text-orange-700">
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+      </div>
+
+      <!-- Encabezado -->
+      <div class="text-center mb-10">
+        <img src="assets/images/Logo_completo.png" alt="Dagpacket Logo" class="max-w-[200px] h-auto mx-auto mb-6">
+        <h3 class="text-2xl font-bold text-orange-600">Historial de Pedidos</h3>
+      </div>
+      
+      <!-- Lista de pedidos -->
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div *ngFor="let pedido of historialPedidos" 
+             [ngClass]="{
+               'border-green-500': pedido.estado === 'Entregado',
+               'border-yellow-500': pedido.estado === 'En tránsito',
+               'border-blue-500': pedido.estado === 'Procesando'
+             }"
+             class="bg-white border-2 shadow-md rounded-lg overflow-hidden transition duration-300 hover:shadow-lg">
+          <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+              <span class="text-lg font-semibold text-gray-800">Pedido #{{ pedido.id }}</span>
+              <span [ngClass]="{
+                'bg-green-100 text-green-800': pedido.estado === 'Entregado',
+                'bg-yellow-100 text-yellow-800': pedido.estado === 'En tránsito',
+                'bg-blue-100 text-blue-800': pedido.estado === 'Procesando'
+              }" class="px-3 py-1 rounded-full text-sm font-medium">
+                {{ pedido.estado }}
+              </span>
+            </div>
+          </div>
+          <div class="px-6 py-4">
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <p class="text-gray-600">Origen:</p>
+                <p class="font-medium">{{ pedido.origen }}</p>
+              </div>
+              <div>
+                <p class="text-gray-600">Destino:</p>
+                <p class="font-medium">{{ pedido.destino }}</p>
+              </div>
+              <div>
+                <p class="text-gray-600">Fecha de envío:</p>
+                <p class="font-medium">{{ pedido.fechaEnvio | date:'dd/MM/yyyy' }}</p>
+              </div>
+              <div>
+                <p class="text-gray-600">Tipo:</p>
+                <p class="font-medium">{{ pedido.tipo }}</p>
+              </div>
+            </div>
+            <div class="mt-4 flex justify-between items-center">
+              <span class="text-orange-600 font-semibold text-lg">$ {{ pedido.costo | number:'1.2-2' }}</span>
+              <button class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
+                Ver detalles
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paginación -->
+      <div class="mt-8 flex justify-center">
+        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+          <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+            <span class="sr-only">Anterior</span>
+            <i class="fas fa-chevron-left"></i>
+          </a>
+          <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+            1
+          </a>
+          <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+            2
+          </a>
+          <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+            3
+          </a>
+          <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+            <span class="sr-only">Siguiente</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay para cerrar el sidebar en móviles -->
+  <div *ngIf="isSidebarOpen" (click)="closeSidebar()" class="fixed inset-0 bg-black bg-opacity-[.1] z-30 md:hidden"></div>
+</div>
