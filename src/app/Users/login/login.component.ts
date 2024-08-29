@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../_services/autenticacion/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,29 +8,41 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  title = 'Dagpacket';
-  password: string = '12345';
-  email: string = 'bladimir@deepia.dev';
+  email: string = '';
+  password: string = '';
   passwordFieldType: string = 'password';
+  errorMessage: string = '';
+  successMessage: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, 
+    private authService: AuthService) {}
 
   onSubmit() {
-    console.log('Login attempt');
-    // Aquí deberías implementar la lógica real de autenticación
-    // Por ahora, simularemos un inicio de sesión exitoso
+    this.errorMessage = '';
+    this.successMessage = '';
+
     if (this.email && this.password) {
-      console.log('Login successful');
-      // Navega al componente de cotización
-      this.router.navigate(['/cotizar']);
+      this.authService.login(this.email, this.password).subscribe(
+        (response: any) => {
+          console.log('Login successful', response);
+          this.successMessage = 'Inicio de sesión exitoso';
+          // Almacenar el token JWT
+          localStorage.setItem('token', response.data.token);
+          setTimeout(() => {
+            this.router.navigate(['/cotizar']);
+          }, 2000); // Redirige después de 2 segundos
+        },
+        (error: any) => {
+          console.error('Login failed', error);
+          this.errorMessage = error.error?.message || 'Error al iniciar sesión';
+        }
+      );
     } else {
-      console.log('Login failed');
-      // Aquí podrías mostrar un mensaje de error al usuario
+      this.errorMessage = 'Por favor, ingrese email y contraseña';
     }
   }
 
   goToSignup() {
-    // Navega al componente de registro
     this.router.navigate(['/signup']);
   }
 

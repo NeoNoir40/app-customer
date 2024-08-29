@@ -13,7 +13,7 @@
         <img src="assets/images/Logo_completo.png" alt="DAGPACKET" class="h-10 sm:h-12 mb-6 mx-auto">
         <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Paqueterías</h2>
 
-        <div class="space-y-5 overflow-y-auto max-h-[calc(100vh-300px)]">
+        <div class="space-y-5 overflow-y-auto max-h-[calc(100vh-350px)] pb-32">
           <div *ngIf="quotes.superenvios.paqueterias.length > 0">
             <!--<h3 class="text-lg font-bold text-gray-800 mb-4">Superenvíos</h3>-->
             <div *ngFor="let paqueteria of quotes.superenvios.paqueterias"
@@ -70,16 +70,37 @@
               <span class="font-bold text-lg text-orange-600">$ {{ paqueteria.precio }}</span>
             </div>
           </div>
+          <div *ngIf="quotes.dhl.length > 0">
+            <!--<h3 class="text-lg font-bold text-gray-800 mb-4">FedEx</h3>-->
+            <div *ngFor="let paqueteria of quotes.dhl"
+                 (click)="seleccionarPaqueteria(paqueteria)"
+                 [class.border-2]="paqueteria === paqueteriaSeleccionada"
+                 [class.border-orange-500]="paqueteria === paqueteriaSeleccionada"
+                 class="bg-orange-50 p-4 rounded-xl flex items-center justify-between cursor-pointer hover:bg-orange-100 transition duration-300 ease-in-out transform hover:scale-102 hover:shadow-md mb-4">
+              <div class="flex items-center">
+                <img [src]="getImage(paqueteria.proveedor)" [alt]="paqueteria.proveedor" class="w-12 h-12 mr-4 object-contain">
+                <div>
+                  <h3 class="font-bold text-lg text-gray-800">{{ paqueteria.proveedor }}</h3>
+                  <p class="text-sm text-gray-600">{{ paqueteria.nombre_servicio }}</p>
+                  <p class="text-xs text-gray-500">{{ paqueteria.tiempo_de_entrega }}</p>
+                </div>
+              </div>
+              <span class="font-bold text-lg text-orange-600">$ {{ paqueteria.precio }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Botón para confirmar selección -->
-  <div *ngIf="paqueteriaSeleccionada" class="fixed bottom-0 left-0 w-full bg-white p-4 border-t border-gray-200 z-40">
-    <button (click)="confirmarSeleccion()" class="w-full py-3 bg-orange-600 text-white text-lg font-bold rounded-lg shadow-lg">
-      Confirmar Selección
-    </button>
+  <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 transition-all duration-300 ease-in-out"
+       [ngClass]="{'translate-y-full': !paqueteriaSeleccionada, 'translate-y-0': paqueteriaSeleccionada}">
+    <div class="max-w-md mx-auto px-4 py-4">
+      <button (click)="confirmarSeleccion()" 
+              class="w-full py-3 bg-orange-600 text-white text-lg font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out hover:bg-orange-700">
+        Confirmar Selección
+      </button>
+    </div>
   </div>
 
   <!-- Overlay para cerrar el sidebar en móviles -->

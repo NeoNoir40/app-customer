@@ -9,19 +9,21 @@ import { DescripcionComponent } from './Paquete/descripcion/descripcion.componen
 import { CodigoComponent } from './Paquete/codigo/codigo.component';
 import { InstruccionesComponent } from './Paquete/instrucciones/instrucciones.component';
 import { HistorialComponent } from './Paquete/historial/historial.component';
+import { AuthGuard } from './_services/autenticacion/auth-guard.service';
 
 
 
 const routes: Routes = [
-  { path: 'cotizar', component: CotizarComponent },
-  { path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'paqueterias', component: PaqueteriasComponent },
-  { path: 'sidebar', component: AppSidebarComponent },
-  { path: 'descripcion', component: DescripcionComponent },
-  { path: 'codigo', component: CodigoComponent },
-  { path: 'instrucciones', component: InstruccionesComponent },
-  { path: 'historial', component: HistorialComponent },
+  { path: 'cotizar', component: CotizarComponent, canActivate: [AuthGuard] },
+  { path: 'historial', component: HistorialComponent, canActivate: [AuthGuard] },
+  { path: 'paqueterias', component: PaqueteriasComponent, canActivate: [AuthGuard] },
+  { path: 'descripcion', component: DescripcionComponent, canActivate: [AuthGuard] },
+  { path: 'codigo', component: CodigoComponent, canActivate: [AuthGuard] },
+  { path: 'instrucciones', component: InstruccionesComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: '/cotizar', pathMatch: 'full' },
+  { path: '**', redirectTo: '/cotizar' }
 ];
 
 @NgModule({

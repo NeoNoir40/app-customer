@@ -35,7 +35,13 @@ interface QuoteResponse {
     data: {
       paqueterias: any[];
     };
-  }
+  };
+  dhl: {
+    success: boolean;
+    data: {
+      paqueterias: any[];
+    };
+  };
 }
 
 @Injectable({
@@ -46,7 +52,7 @@ export class QuotesService {
   constructor(private http: HttpClient) { }
 
 
-  getQuote(quoteData: any): Observable<{ superenvios: { paqueterias: any[] }, fedex: any[], paqueteexpress: any[] }> {
+  getQuote(quoteData: any): Observable<{ superenvios: { paqueterias: any[] }, fedex: any[], paqueteexpress: any[], dhl: any[] }> {
     return this.http.post<QuoteResponse>(`${environment.apiUrl}/shipping/quote`, quoteData)
       .pipe(
         map(response => ({
@@ -54,9 +60,9 @@ export class QuotesService {
             paqueterias: response.superenvios.success ? response.superenvios.data.paqueterias : []
           },
           fedex: response.fedex.success ? response.fedex.data.paqueterias : [],
-          paqueteexpress: response.paqueteexpress.success ? response.paqueteexpress.data.paqueterias : []
+          paqueteexpress: response.paqueteexpress.success ? response.paqueteexpress.data.paqueterias : [],
+          dhl: response.dhl.success ? response.dhl.data.paqueterias : []
         }))
       );
   }
-
 }

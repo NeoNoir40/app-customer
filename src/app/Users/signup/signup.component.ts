@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../_services/autenticacion/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -7,12 +8,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent {
-  password: string = '';
+  user = {
+    name: '',
+    surname: '',
+    email: '',
+    password: ''
+  };
   confirmPassword: string = '';
   passwordFieldType: string = 'password';
   confirmPasswordFieldType: string = 'password';
+  errorMessage: string = '';
+  successMessage: string = '';
 
-  constructor(private router: Router) {} // Add the router property
+  constructor(private router: Router, private authService: AuthService) {}
 
   togglePasswordVisibility() {
     this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
@@ -23,12 +31,30 @@ export class SignupComponent {
   }
 
   onSubmit() {
-    // Aquí irá la lógica para manejar el envío del formulario
-    console.log('Formulario enviado');
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    if (this.user.password !== this.confirmPassword) {
+      this.errorMessage = 'Las contraseñas no coinciden';
+      return;
+    }
+
+    this.authService.signup(this.user).subscribe(
+      (response: any) => {
+        console.log('Usuario registrado exitosamente', response);
+        this.successMessage = 'Usuario registrado exitosamente';
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000); // Redirige después de 2 segundos
+      },
+      (error: any) => {
+        console.error('Error al registrar usuario', error);
+        this.errorMessage = error.error?.message || 'Ocurrió un error al registrar el usuario';
+      }
+    );
   }
 
   goToLogIn() {
-    // Navega al componente de registro
     this.router.navigate(['/login']);
   }
 }

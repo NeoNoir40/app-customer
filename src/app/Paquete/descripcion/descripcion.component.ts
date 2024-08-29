@@ -4,9 +4,11 @@ import { EnviosDataService } from 'src/app/_services/envios/envios-data.service'
 
 interface Paqueteria {
   nombre: string;
+  proveedor: string;  
   imagen: string;
   tiempo_de_entrega: string;
   precio: number;
+  nombre_servicio: string;  
 }
 
 
@@ -39,7 +41,7 @@ export class DescripcionComponent implements OnInit {
       this.paqueteria = paqueteria;
       this.shippingPrice = Number(paqueteria.precio) || 0;
       this.estimatedDeliveryTime = paqueteria.tiempo_de_entrega || '';
-      this.shippingType = paqueteria.nombre || '';
+      this.shippingType = paqueteria.nombre_servicio || '';
     } else {
       console.log('No se encontró información de paquetería');
     }
@@ -122,32 +124,15 @@ export class DescripcionComponent implements OnInit {
   }
 
   getPackageImage(): string {
-    console.log('Paquetería en getPackageImage:', this.paqueteria);
-    if (!this.paqueteria || !this.paqueteria.nombre) {
-      console.log('Paquetería o nombre de paquetería no definido');
+    if (!this.paqueteria || !this.paqueteria.proveedor) {  
+      console.log('Paquetería o proveedor no definido');
       return 'assets/images/isotipo-dagpacket.png';
     }
   
-    const nombrePaqueteria = this.paqueteria.nombre.toLowerCase().trim();
-    console.log('Nombre de paquetería (lowercase):', nombrePaqueteria);
-    switch (nombrePaqueteria) {
-      case 'fedex':
-        return 'assets/images/fedex_logo.png';
-      case 'dhl':
-        return 'assets/images/dhl_logo.png';
-      case 'ups':
-        return 'assets/images/ups_logo.png';
-      case 'estafeta':
-        return 'assets/images/estafeta_logo.png';
-      case 'paquete express':
-      case 'paqueteexpress':
-        return 'assets/images/paquetexpress_logo.png';
-      case 'super envios':
-      case 'superenvios':
-        return 'assets/images/superenvios_logo.png';
-      default:
-        console.log('No se encontró imagen para:', nombrePaqueteria);
-        return 'assets/images/isotipo-dagpacket.png';
-    }
+    const proveedorNormalizado = this.paqueteria.proveedor.toLowerCase().replace(/\s+/g, '');
+    console.log('Proveedor normalizado:', proveedorNormalizado);
+    
+    return `assets/images/${proveedorNormalizado}_logo.png`;
   }
 }
+

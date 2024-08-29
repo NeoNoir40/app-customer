@@ -16,7 +16,7 @@ interface Paqueteria {
   styleUrls: ['./paqueterias.component.scss']
 })
 export class PaqueteriasComponent {
-  quotes: { superenvios: { paqueterias: Paqueteria[] }, fedex: Paqueteria[], paqueteexpress: Paqueteria[] };
+  quotes: { superenvios: { paqueterias: Paqueteria[] }, fedex: Paqueteria[], paqueteexpress: Paqueteria[], dhl: Paqueteria[] };
   paqueteriaSeleccionada: Paqueteria | null = null;
   isSidebarOpen: boolean = false;
 
@@ -25,7 +25,7 @@ export class PaqueteriasComponent {
     private enviosDataService: EnviosDataService
   ) {
     const navigationExtras = this.router.getCurrentNavigation()?.extras || {};
-    this.quotes = navigationExtras?.state as { superenvios: { paqueterias: Paqueteria[] }, fedex: Paqueteria[], paqueteexpress: Paqueteria[] };
+    this.quotes = navigationExtras?.state as { superenvios: { paqueterias: Paqueteria[] }, fedex: Paqueteria[], paqueteexpress: Paqueteria[], dhl: Paqueteria[] };
   }
 
   seleccionarPaqueteria(paqueteria: Paqueteria) {
@@ -50,7 +50,6 @@ export class PaqueteriasComponent {
   }
 
   getImage(proveedor: string): string {
-    // Asegúrate de que el nombre del proveedor esté en minúsculas y sin espacios
     const proveedorNormalizado = proveedor.toLowerCase().replace(/\s+/g, '');
     return `assets/images/${proveedorNormalizado}_logo.png`;
   }

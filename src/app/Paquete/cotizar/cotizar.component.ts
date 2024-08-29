@@ -24,6 +24,12 @@ interface QuoteResponse {
         paqueterias: any[];
       };
     };
+    dhl: {
+      success: boolean;
+      data: {
+        paqueterias: any[];
+      };
+    };
   };
 }
 
@@ -47,7 +53,7 @@ interface QuoteRequest {
   styleUrls: ['./cotizar.component.scss']
 })
 export class CotizarComponent {
-  quotes: { superenvios: any[]; fedex: any[]; paqueteexpress: any[] } | undefined;
+  quotes: { superenvios: any[]; fedex: any[]; paqueteexpress: any[]; dhl: any[]; } | undefined;
   origenPostal: string = '';
   destinoPostal: string = '';
   altura: number | null = null;
@@ -75,7 +81,7 @@ export class CotizarComponent {
 
   seleccionarTipo(tipo: 'paquete' | 'sobre') {
     this.tipoSeleccionado = tipo;
-    
+
     if (tipo === 'sobre') {
       this.altura = 20;
       this.ancho = 20;
@@ -132,10 +138,9 @@ export class CotizarComponent {
       );
   }
 
-  navigateToPackages(response: { superenvios: { paqueterias: any[] }, fedex: any[], paqueteexpress: any[] }) {
+  navigateToPackages(response: { superenvios: { paqueterias: any[] }, fedex: any[], paqueteexpress: any[], dhl: any[] }) {
     this.router.navigate(['/paqueterias'], { state: response });
   }
-
 
   onAnimate(animationItem: AnimationItem): void {
     console.log(animationItem);
