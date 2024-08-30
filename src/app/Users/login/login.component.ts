@@ -54,4 +54,8 @@ export class LoginComponent {
   togglePasswordVisibility(): void {
     this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
   }
+
+  goToForgotPassword() {
+    this.router.navigate(['/forgot-pass']);
+  }
 }

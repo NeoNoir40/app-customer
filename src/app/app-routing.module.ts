@@ -10,12 +10,14 @@ import { CodigoComponent } from './Paquete/codigo/codigo.component';
 import { InstruccionesComponent } from './Paquete/instrucciones/instrucciones.component';
 import { HistorialComponent } from './Paquete/historial/historial.component';
 import { AuthGuard } from './_services/autenticacion/auth-guard.service';
+import { ForgotPassComponent } from './Users/forgot-pass/forgot-pass.component';
 
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'forgot-pass', component: ForgotPassComponent },
   { path: 'cotizar', component: CotizarComponent, canActivate: [AuthGuard] },
   { path: 'historial', component: HistorialComponent, canActivate: [AuthGuard] },
   { path: 'paqueterias', component: PaqueteriasComponent, canActivate: [AuthGuard] },
