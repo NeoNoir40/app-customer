@@ -47,6 +47,19 @@ interface QuoteRequest {
   isLoading: false;
 }
 
+
+interface DimensionInterface {
+  height: number;
+  width: number;
+  length: number;
+  weigth: number;
+  type: 'paquete' | 'sobre';
+  secure: 'si' | 'no';
+  value: number;
+  package_weight: number;
+  volumetric_weight: number;
+};
+
 @Component({
   selector: 'app-cotizar',
   templateUrl: './cotizar.component.html',
@@ -66,6 +79,7 @@ export class CotizarComponent {
   valorDeclarado: number | null = null;
   showSeguroSection: boolean = false;
 
+
   box_lottie: AnimationOptions = {
     path: '../../../assets/lotties/box-open.json',
   };
@@ -81,20 +95,26 @@ export class CotizarComponent {
 
   seleccionarTipo(tipo: 'paquete' | 'sobre') {
     this.tipoSeleccionado = tipo;
-
+    localStorage.setItem('tipo', tipo);
     if (tipo === 'sobre') {
       this.altura = 20;
       this.ancho = 20;
       this.largo = 20;
       this.peso = 2;
       this.showSeguroSection = false;
+
+
+
     } else {
+
       this.altura = null;
       this.ancho = null;
       this.largo = null;
       this.peso = null;
       this.showSeguroSection = true;
     }
+
+
   }
 
   openSidebar() {
@@ -123,11 +143,27 @@ export class CotizarComponent {
       valor_declarado: this.seguroSeleccionado === 'si' ? this.valorDeclarado || 0 : 0,
       isLoading: false
     };
+    const factorVolumetrico = 5000; // Generalmente es 5000 en cm
+
+    const dimensiones: DimensionInterface = {
+      height: this.altura || 0,
+      width: this.ancho || 0,
+      length: this.largo || 0,
+      weigth: this.peso || 0,
+      type: this.tipoSeleccionado || 'paquete',
+      secure: this.seguroSeleccionado || 'no',
+      value: this.valorDeclarado || 0,
+      package_weight: this.peso || 0,
+      volumetric_weight: ((this.altura || 0) * (this.ancho || 0) * (this.largo || 0)) / factorVolumetrico
+    };
+
+
 
     this.quotesService.getQuote(cotizacionRequest)
       .subscribe(
         (response) => {
           console.log('Respuesta de cotización:', response);
+          localStorage.setItem('dimensiones', JSON.stringify(dimensiones));
           this.navigateToPackages(response);
           this.isLoading = false;
         },

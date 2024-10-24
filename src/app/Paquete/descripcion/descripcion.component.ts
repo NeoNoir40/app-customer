@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EnviosDataService } from 'src/app/_services/envios/envios-data.service';
 
+
+
+
 interface Paqueteria {
   nombre: string;
   proveedor: string;  
@@ -49,17 +52,17 @@ export class DescripcionComponent implements OnInit {
 
 
   senderFields = [
-    { key: 'fullName', label: 'Nombre completo', type: 'text' },
+    { key: 'name', label: 'Nombre completo', type: 'text' },
     { key: 'email', label: 'Correo electrónico', type: 'email' },
     { key: 'phone', label: 'Número telefónico', type: 'tel' },
     { key: 'country', label: 'País', type: 'text' },
-    { key: 'postalCode', label: 'CP', type: 'text' },
+    { key: 'zip_code', label: 'CP', type: 'text' },
     { key: 'state', label: 'Estado', type: 'text' },
     { key: 'city', label: 'Ciudad', type: 'text' },
-    { key: 'colony', label: 'Colonia', type: 'text' },
+    { key: 'settlement', label: 'Colonia', type: 'text' },
     { key: 'street', label: 'Calle', type: 'text' },
-    { key: 'exteriorNumber', label: 'Número exterior', type: 'text' },
-    { key: 'interiorNumber', label: 'Número interior', type: 'text' },
+    { key: 'external_number', label: 'Número exterior', type: 'text' },
+    { key: 'internal_number', label: 'Número interior', type: 'text' },
     { key: 'reference', label: 'Referencia', type: 'text' },
   ];
 
@@ -85,8 +88,70 @@ export class DescripcionComponent implements OnInit {
       paqueteria: this.paqueteria,
       precio: this.shippingPrice,
       tipoEnvio: this.shippingType,
-      tiempoEstimado: this.estimatedDeliveryTime
+      tiempoEstimado: this.estimatedDeliveryTime,
+      
     };
+
+
+      
+
+    // console.log('Datos del remitente:', this.sender);
+
+
+    // console.log('Pais:', this.sender.country);
+    // console.log('Estado:', this.sender.state);
+
+    const senderIsoCodes = this.enviosDataService.getLocationCodes(
+      this.sender.country,
+      this.sender.state
+    );
+
+
+      // Agregar automáticamente los valores ISO al remitente (sender)
+      this.sender.iso_estado = senderIsoCodes.stateCode;   // Por ejemplo "JA"
+      this.sender.iso_pais = senderIsoCodes.countryCode;   // Por ejemplo "MX"
+      this.sender.country_code = senderIsoCodes.countryCode; // Por ejemplo "MX"
+  
+
+    const recipientIsoCodes = this.enviosDataService.getLocationCodes(
+      this.recipient.country,
+      this.recipient.state
+    );
+      // Agregar automáticamente los valores ISO al remitente (sender)
+
+    this.recipient.iso_estado = recipientIsoCodes.stateCode;
+    this.recipient.iso_pais = recipientIsoCodes.countryCode;
+    this.recipient.country_code = recipientIsoCodes.countryCode;
+
+
+    const isoCodeSender = {
+      pais: this.sender.country,
+      estado: this.sender.state,
+      paisCode: senderIsoCodes.countryCode,
+      estadoCode: senderIsoCodes.stateCode
+    };
+
+
+    const isoCodeRecipient = {
+      pais: this.recipient.country,
+      estado: this.recipient.state,
+      paisCode: recipientIsoCodes.countryCode,
+      estadoCode: recipientIsoCodes.stateCode
+    };
+
+
+
+    localStorage.setItem('isoCodeSender', JSON.stringify(isoCodeSender));
+    localStorage.setItem('isoCodeRecipient', JSON.stringify(isoCodeRecipient));
+    
+    
+
+   
+
+    // console.log('Datos del envío:', envioData);
+
+    
+
 
     this.qrCodeData = JSON.stringify(envioData);
     this.enviosDataService.setQRCodeData(this.qrCodeData);

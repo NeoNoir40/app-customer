@@ -1,0 +1,127 @@
+<div class="min-h-screen bg-gray-100 flex relative overflow-hidden">
+    <!-- Sidebar -->
+    <app-app-sidebar [isSidebarOpen]="isSidebarOpen"></app-app-sidebar>
+  
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col p-4">
+      <div class="w-full max-w-4xl mx-auto px-8 py-10 bg-white rounded-2xl shadow-lg relative">
+        <!-- Ícono de menú hamburguesa para abrir el sidebar -->
+        <div class="absolute top-4 right-4">
+          <button (click)="openSidebar()" class="text-orange-600 focus:outline-none hover:text-orange-700">
+            <i class="fa-solid fa-bars text-2xl"></i>
+          </button>
+        </div>
+  
+        <!-- Contenido -->
+        <div class="text-center mb-10">
+          <img
+            src="assets/images/Logo_completo.png"
+            alt="Dagpacket Logo"
+            class="max-w-[200px] h-auto mx-auto mb-6"
+          />
+          <h3 class="text-2xl font-bold text-orange-600">Detalles de pedido</h3>
+        </div>
+  
+        <!-- Detalles del Pedido -->
+        <div
+          *ngIf="pedido"
+          [ngClass]="{
+            'border-green-100': pedido.payment.status === 'Pagado',
+            'border-orange-300': pedido.payment.status === 'Pendiente',
+            'border-red-100': pedido.payment.status === 'Rechazado'
+          }"
+          class="border-2 rounded-lg"
+        >
+          <div>
+            <div class="flex justify-between items-center bg-gray-100 border-b rounded-t-lg py-1 px-2">
+              <span class="text-xs font-semibold text-gray-800">Folio #{{ pedido._id }}</span>
+            </div>
+  
+            <div class="flex flex-col justify-center px-2 py-2">
+              <div>
+                <span
+                  [ngClass]="{
+                    'bg-green-100 text-green-800': pedido.payment.status === 'Pagado',
+                    'bg-orange-100 text-orange-800': pedido.payment.status === 'Pendiente',
+                    'bg-red-100 text-red-800': pedido.payment.status === 'Rechazado'
+                  }"
+                  class="px-1 py-1 rounded-lg text-center md:w-1/3 text-xs font-medium"
+                >
+                  Pago: {{ pedido.payment.status }}
+                </span>
+                
+              </div>
+              <div>
+                <span
+                  [ngClass]="{
+                    'bg-green-100 text-green-800': pedido.status === 'Entregado',
+                    'bg-yellow-100 text-yellow-800': pedido
+                        .status === 'En tránsito' || pedido.status === 'En recolección',
+                    'bg-blue-100 text-blue-800': pedido.status === 'Procesando'
+                    }"
+                    class="px-1 py-1 rounded-lg text-center md:w-1/3 text-xs font-medium"
+                    >
+                    Estado: {{ pedido.status }}
+                    </span>
+              </div>
+           
+  
+              <h1 class="text-gray-800 font-bold mt-2">
+                Detalles del pedido
+              </h1>
+            </div>
+  
+            <!-- Grid con dos columnas para detalles -->
+            <div class="md:grid md:grid-cols-2 md:px-5 gap-4">
+              <!-- Detalles del Remitente -->
+              <div class="px-2 py-4">
+                <h1 class="text-gray-800 font-bold">Detalles del remitente</h1>
+                <p class="text-gray-800 text-sm md:text-xl font-semibold">Remitente: {{ pedido.from.name }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Teléfono: {{ pedido.from.phone }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Correo: {{ pedido.from.email }}</p>
+  
+                <h1 class="text-gray-800 mt-4">Dirección de origen:</h1>
+                <p class="text-gray-800 text-sm md:text-xl">País: {{ pedido.from.country }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Estado: {{ pedido.from.state }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Ciudad: {{ pedido.from.city }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Colonia: {{ pedido.from.settlement }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Calle: {{ pedido.from.street }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Código Postal: {{ pedido.from.zip_code }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Referencias: {{ pedido.from.reference || 'Sin referencias' }}</p>
+              </div>
+  
+              <!-- Detalles del Destinatario -->
+              <div class="px-2 py-4">
+                <h1 class="text-gray-800 font-bold">Detalles del destinatario</h1>
+                <p class="text-gray-800 text-sm md:text-xl font-semibold">Destinatario: {{ pedido.to.name }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Teléfono: {{ pedido.to.phone }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Correo: {{ pedido.to.email }}</p>
+  
+                <h1 class="text-gray-800 mt-4">Dirección de destino:</h1>
+                <p class="text-gray-800 text-sm md:text-xl">País: {{ pedido.to.country }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Estado: {{ pedido.to.state }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Ciudad: {{ pedido.to.city }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Colonia: {{ pedido.to.settlement }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Calle: {{ pedido.to.street }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Código Postal: {{ pedido.to.zip_code }}</p>
+                <p class="text-gray-800 text-sm md:text-xl">Referencias: {{ pedido.to.reference || 'Sin referencias' }}</p>
+              </div>
+            </div>
+  
+            <div class="px-2 py-4">
+              <span class="text-xs font-semibold text-gray-800">Fecha de pedido: {{ pedido.createdAt | date: 'medium' }}</span>
+            </div>
+          </div>
+    <div *ngIf="pedido.payment.status === 'Pendiente'" class="text-center mt-2 mb-2">
+        <button  class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700">
+            Completar Pago
+        </button>
+    </div>
+        </div>
+  
+        <!-- Overlay para cerrar el sidebar en móviles -->
+        <div *ngIf="isSidebarOpen" (click)="closeSidebar()" class="fixed inset-0 bg-black bg-opacity-[.1] z-30 md:hidden"></div>
+      </div>
+    </div>
+  </div>
+  

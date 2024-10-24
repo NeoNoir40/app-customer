@@ -17,6 +17,7 @@ interface Paqueteria {
 })
 export class PaqueteriasComponent {
   quotes: { superenvios: { paqueterias: Paqueteria[] }, fedex: Paqueteria[], paqueteexpress: Paqueteria[], dhl: Paqueteria[] };
+  provedorSeleccionado: any;
   paqueteriaSeleccionada: Paqueteria | null = null;
   isSidebarOpen: boolean = false;
 
@@ -28,15 +29,17 @@ export class PaqueteriasComponent {
     this.quotes = navigationExtras?.state as { superenvios: { paqueterias: Paqueteria[] }, fedex: Paqueteria[], paqueteexpress: Paqueteria[], dhl: Paqueteria[] };
   }
 
-  seleccionarPaqueteria(paqueteria: Paqueteria) {
+  seleccionarPaqueteria(paqueteria: Paqueteria, proveedor: string) {
+    console.log('Proveedor seleccionado:', proveedor);
     console.log('Paquetería seleccionada:', paqueteria); 
     this.paqueteriaSeleccionada = paqueteria;
-    this.enviosDataService.setPaqueteriaSeleccionada(paqueteria);
+    this.provedorSeleccionado = proveedor;
+    this.enviosDataService.setPaqueteriaSeleccionada(paqueteria,proveedor);
   }
 
   confirmarSeleccion() {
     if (this.paqueteriaSeleccionada) {
-      this.enviosDataService.setPaqueteriaSeleccionada(this.paqueteriaSeleccionada);
+      this.enviosDataService.setPaqueteriaSeleccionada(this.paqueteriaSeleccionada,this.provedorSeleccionado);
       this.router.navigate(['/descripcion']);
     }
   }

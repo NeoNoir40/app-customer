@@ -17,7 +17,7 @@
           <div *ngIf="quotes.superenvios.paqueterias.length > 0">
             <!--<h3 class="text-lg font-bold text-gray-800 mb-4">Superenvíos</h3>-->
             <div *ngFor="let paqueteria of quotes.superenvios.paqueterias"
-                 (click)="seleccionarPaqueteria(paqueteria)"
+                 (click)="seleccionarPaqueteria(paqueteria,'Superenvios')"
                  [class.border-2]="paqueteria === paqueteriaSeleccionada"
                  [class.border-orange-500]="paqueteria === paqueteriaSeleccionada"
                  class="bg-orange-50 p-4 rounded-xl flex items-center justify-between cursor-pointer hover:bg-orange-100 transition duration-300 ease-in-out transform hover:scale-102 hover:shadow-md mb-4">
@@ -36,7 +36,7 @@
           <div *ngIf="quotes.fedex.length > 0">
             <!--<h3 class="text-lg font-bold text-gray-800 mb-4">FedEx</h3>-->
             <div *ngFor="let paqueteria of quotes.fedex"
-                 (click)="seleccionarPaqueteria(paqueteria)"
+                 (click)="seleccionarPaqueteria(paqueteria,'Fedex')"
                  [class.border-2]="paqueteria === paqueteriaSeleccionada"
                  [class.border-orange-500]="paqueteria === paqueteriaSeleccionada"
                  class="bg-orange-50 p-4 rounded-xl flex items-center justify-between cursor-pointer hover:bg-orange-100 transition duration-300 ease-in-out transform hover:scale-102 hover:shadow-md mb-4">
@@ -55,7 +55,7 @@
           <div *ngIf="quotes.paqueteexpress.length > 0">
             <!--<h3 class="text-lg font-bold text-gray-800 mb-4">Paquete Express</h3>-->
             <div *ngFor="let paqueteria of quotes.paqueteexpress"
-                 (click)="seleccionarPaqueteria(paqueteria)"
+                 (click)="seleccionarPaqueteria(paqueteria,'Paquete Express')"
                  [class.border-2]="paqueteria === paqueteriaSeleccionada"
                  [class.border-orange-500]="paqueteria === paqueteriaSeleccionada"
                  class="bg-orange-50 p-4 rounded-xl flex items-center justify-between cursor-pointer hover:bg-orange-100 transition duration-300 ease-in-out transform hover:scale-102 hover:shadow-md mb-4">
@@ -73,7 +73,7 @@
           <div *ngIf="quotes.dhl.length > 0">
             <!--<h3 class="text-lg font-bold text-gray-800 mb-4">FedEx</h3>-->
             <div *ngFor="let paqueteria of quotes.dhl"
-                 (click)="seleccionarPaqueteria(paqueteria)"
+                 (click)="seleccionarPaqueteria(paqueteria,'DHL')"
                  [class.border-2]="paqueteria === paqueteriaSeleccionada"
                  [class.border-orange-500]="paqueteria === paqueteriaSeleccionada"
                  class="bg-orange-50 p-4 rounded-xl flex items-center justify-between cursor-pointer hover:bg-orange-100 transition duration-300 ease-in-out transform hover:scale-102 hover:shadow-md mb-4">
