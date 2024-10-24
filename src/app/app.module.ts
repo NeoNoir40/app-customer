@@ -22,6 +22,7 @@ import { AuthLoginService } from './_services/autenticacion/auth-login.service';
 import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 import { AuthGuard } from './_services/autenticacion/auth-guard.service';
 import { ForgotPassComponent } from './Users/forgot-pass/forgot-pass.component';
+import { HistorialDetailsComponent } from './Paquete/historial-details/historial-details.component';
 
 export function playerFactory() {
   return lottie;
@@ -43,7 +44,8 @@ export function tokenGetter() {
     CodigoComponent,
     InstruccionesComponent,
     HistorialComponent,
-    ForgotPassComponent
+    ForgotPassComponent,
+    HistorialDetailsComponent
   ],
   imports: [
     BrowserModule,

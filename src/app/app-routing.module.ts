@@ -11,6 +11,7 @@ import { InstruccionesComponent } from './Paquete/instrucciones/instrucciones.co
 import { HistorialComponent } from './Paquete/historial/historial.component';
 import { AuthGuard } from './_services/autenticacion/auth-guard.service';
 import { ForgotPassComponent } from './Users/forgot-pass/forgot-pass.component';
+import { HistorialDetailsComponent } from './Paquete/historial-details/historial-details.component';
 
 
 
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'descripcion', component: DescripcionComponent, canActivate: [AuthGuard] },
   { path: 'codigo', component: CodigoComponent, canActivate: [AuthGuard] },
   { path: 'instrucciones', component: InstruccionesComponent, canActivate: [AuthGuard] },
+  {path:'details/:id', component: HistorialDetailsComponent, canActivate: [AuthGuard]},
   { path: '', redirectTo: '/cotizar', pathMatch: 'full' },
   { path: '**', redirectTo: '/cotizar' }
 ];
