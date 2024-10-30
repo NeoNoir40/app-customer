@@ -1,0 +1,51 @@
+<div class="min-h-screen bg-gray-100 flex relative overflow-hidden">
+    <!-- Sidebar -->
+    <app-app-sidebar [isSidebarOpen]="isSidebarOpen"></app-app-sidebar>
+  
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col p-4">
+      <div class="w-full max-w-4xl mx-auto px-8 py-10 bg-white rounded-2xl shadow-lg relative">
+        <!-- Ícono de menú hamburguesa para abrir el sidebar -->
+        <div class="absolute top-4 right-4">
+          <button (click)="openSidebar()" class="text-orange-600 focus:outline-none hover:text-orange-700">
+            <i class="fa-solid fa-bars text-2xl"></i>
+          </button>
+        </div>
+  
+        <!-- Contenido -->
+        <div class="text-center mb-10">
+          <img
+            src="assets/images/Logo_completo.png"
+            alt="Dagpacket Logo"
+            class="max-w-[200px] h-auto mx-auto mb-6"
+          />
+          <h3 class="text-2xl font-bold text-orange-600">Detalles de tu cartera</h3>
+          <div>
+            <p class="text-gray-500">Aquí puedes ver los detalles de tu cartera de criptomonedas.</p>
+          </div>
+          <div *ngIf="profile">
+            <h1>
+              <span class="text-gray-500">Nombre de usuario:</span> {{ profile.name }}
+            </h1>
+            <h1>
+              <span class="text-gray-500">Balance :</span> {{ profile.wallet.rechargeBalance.$numberDecimal }}
+            </h1> 
+           <button  class="bg-orange-600 text-white px-4 py-2 mt-4 rounded-md">Recargar</button>
+
+            
+
+          </div>
+          <div *ngIf="!profile">
+              Usuario sin wallet iniciada
+
+              </div>
+        </div>
+  
+   
+  
+        <!-- Overlay para cerrar el sidebar en móviles -->
+        <div *ngIf="isSidebarOpen" (click)="closeSidebar()" class="fixed inset-0 bg-black bg-opacity-[.1] z-30 md:hidden"></div>
+      </div>
+    </div>
+  </div>
+  
