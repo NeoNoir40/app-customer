@@ -30,16 +30,67 @@
             <h1>
               <span class="text-gray-500">Balance :</span> {{ profile.wallet.rechargeBalance.$numberDecimal }}
             </h1> 
-           <button  class="bg-orange-600 text-white px-4 py-2 mt-4 rounded-md">Recargar</button>
-
-            
-
+           <button 
+            (click)="openModal()"
+           class="bg-orange-600 text-white px-4 py-2 mt-4 rounded-md">Recargar</button>
           </div>
           <div *ngIf="!profile">
               Usuario sin wallet iniciada
-
               </div>
         </div>
+
+
+      <!-- modal -->
+
+      <div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="bg-white p-4 rounded-lg z-50">
+          <h1 class="text-2xl font-bold text-orange-600">Recargar saldo</h1>
+          <div class="mt-4">
+            <label for="amount" class="block text-sm font-medium text-gray-700">Monto a recargar</label>
+            <input
+              type="text"
+              id="amount"
+              [(ngModel)]="rechargeAmount"  
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
+          </div>
+          <div class="mt-4">
+            <label for="card-number" class="block text-sm font-medium text-gray-700">Número de tarjeta</label>
+            <input
+              type="text"
+              id="card-number"
+              [(ngModel)]="cardNumber"  
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
+          </div>
+          <div class="mt-4">
+            <label for="expiry" class="block text-sm font-medium text-gray-700">Fecha de vencimiento (MM/AA)</label>
+            <input
+              type="text"
+              id="expiry"
+              [(ngModel)]="expiry"  
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
+          </div>
+          <div class="mt-4">
+            <label for="cvc" class="block text-sm font-medium text-gray-700">CVC</label>
+            <input
+              type="text"
+              id="cvc"
+              [(ngModel)]="cvc" 
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
+          </div>
+        
+
+          <div class="mt-4">
+            <button (click)="closeModal()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md">Cancelar</button>
+            <button (click)="createIntent()" class="bg-orange-600 text-white px-4 py-2 rounded-md">Recargar</button>
+          </div>
+        </div>
+      </div>
+
   
    
   
